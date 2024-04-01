@@ -1,4 +1,6 @@
 **Melanoma-Skin-Cancer-Detection-using-Swin-Transformer**
+
+
 Melanoma, a type of cancer originating in melanocytes—cells responsible for producing melanin pigment—can originate from a mole (known as skin melanoma) or from other pigmented tissues, such as those found in the eye or intestines.
 Employing a new vision Transformer known as the Swin Transformer, a hierarchical Transformer approach incorporating Shifted Windows for representation computation which effectively acts as a versatile backbone for computer vision tasks. In the project, Swin Transformer model is utilized for classification of skin images as either malignant (cancerous) or benign (non-cancerous).
 
