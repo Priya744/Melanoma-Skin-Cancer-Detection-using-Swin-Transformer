@@ -1,0 +1,90 @@
+import os
+import matplotlib.pyplot as plt
+current_directory = os.getcwd()
+train_dir = os.path.join('/kaggle/input/mel-skin-cancer/Dataset/Train')
+test_dir = os.path.join('/kaggle/input/mel-skin-cancer/Dataset/Test')
+print('/kaggle/input/mel-skin-cancer/Dataset')
+os.makedirs(train_dir, exist_ok=True)
+os.makedirs(test_dir, exist_ok=True)
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+NUM_WORKERS = os.cpu_count()
+
+def create_dataloaders(
+    train_dir: str, 
+    test_dir: str, 
+    transform: transforms.Compose, 
+    batch_size: int, 
+    num_workers: int=NUM_WORKERS
+):
+
+  train_data = datasets.ImageFolder(train_dir, transform=transform)
+  test_data = datasets.ImageFolder(test_dir, transform=transform)
+
+  class_names = train_data.classes
+
+  train_dataloader = DataLoader(
+      train_data,
+      batch_size=batch_size,
+      shuffle=True,
+      num_workers=num_workers,
+      pin_memory=True,
+  )
+  test_dataloader = DataLoader(
+      test_data,
+      batch_size=batch_size,
+      shuffle=False,
+      num_workers=num_workers,
+      pin_memory=True,
+  )
+
+  return train_dataloader, test_dataloader, class_names
+IMG_SIZE = 224
+
+manual_transforms = transforms.Compose([
+    transforms.Resize((IMG_SIZE, IMG_SIZE)),
+    transforms.ToTensor(),
+])           
+print(f"Manually created transforms: {manual_transforms}")
+BATCH_SIZE = 32 
+
+train_dataloader, test_dataloader, class_names = create_dataloaders(
+    train_dir=train_dir,
+    test_dir=test_dir,
+    transform=manual_transforms, 
+    batch_size=BATCH_SIZE
+)
+
+train_dataloader, test_dataloader, class_names
+
+image_batch, label_batch = next(iter(train_dataloader))
+image, label = image_batch[0], label_batch[0]
+
+print(image.shape, label)
+plt.imshow(image.permute(1, 2, 0)) 
+plt.title(class_names[label])
+plt.axis(False);
+model = SwinTransformer(num_classes=len(class_names))
+device = "cuda" if torch.cuda.is_available() else "cpu"
+device
+
+optimizer = torch.optim.Adam(params=model.parameters(), 
+                             lr=3e-3, 
+                             betas=(0.9, 0.999), 
+                             weight_decay=0.3) 
+
+loss_fn = torch.nn.CrossEntropyLoss()
+set_seeds()
+results = train(model=model,
+                       train_dataloader=train_dataloader,
+                       test_dataloader=test_dataloader,
+                       optimizer=optimizer,
+                       loss_fn=loss_fn,
+                       epochs=40,
+                       device=device)
+plot_loss_curves(results)
+import requests
+custom_image_path = "/kaggle/input/mel-skin-cancer/Dataset/Test/Malignant/melanoma_10574.jpg"
+pred_and_plot_image(model=model,
+                    image_path=custom_image_path,
+                    class_names=class_names)
