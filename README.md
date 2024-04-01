@@ -5,7 +5,7 @@ Melanoma, a type of cancer originating in melanocytes—cells responsible for pr
 Employing a new vision Transformer known as the Swin Transformer, a hierarchical Transformer approach incorporating Shifted Windows for representation computation which effectively acts as a versatile backbone for computer vision tasks. In the project, Swin Transformer model is utilized for classification of skin images as either malignant (cancerous) or benign (non-cancerous).
 
 
-Swin Transfromer model:
+Swin Transformer model:
 ![image](https://github.com/Priya744/Melanoma-Skin-Cancer-Detection-using-Swin-Transformer/assets/98945781/d9f73abd-83e6-489b-b107-bdad61c5e896)
 
 **Dataset**: 
